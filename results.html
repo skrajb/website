@@ -124,38 +124,25 @@
     </div>
 
     <script>
-        function highlightTypedText(originalArray, typedArray) {
-            let result = [];
-            let originalIndex = 0, typedIndex = 0;
-            let lastTypedIndex = typedArray.length - 1;
+       function highlightTypedText(originalArray, typedArray) {
+    let result = [];
+    let originalIndex = 0;
 
-            while (typedIndex <= lastTypedIndex) {
-                const typedWord = typedArray[typedIndex] || "";
+    for (let typedIndex = 0; typedIndex < typedArray.length; typedIndex++) {
+        const typedWord = typedArray[typedIndex] || "";
 
-                if (originalIndex < originalArray.length && originalArray[originalIndex] === typedWord) {
-                    result.push(`<span class="correct">${typedWord}</span>`); // ✅ Correct word
-                    originalIndex++;
-                } else {
-                    // Check if the typed word appears later in the original array
-                    let futureIndex = originalArray.indexOf(typedWord, originalIndex + 1);
-                    if (futureIndex !== -1) {
-                        // Mark skipped words
-                        while (originalIndex < futureIndex) {
-                            result.push(`<span class="skipped">${originalArray[originalIndex]}</span>`);
-                            originalIndex++;
-                        }
-                        result.push(`<span class="correct">${typedWord}</span>`); // ✅ Matched future word
-                        originalIndex++;
-                    } else {
-                        result.push(`<span class="wrong">${typedWord}</span>`); // 🔴 Wrong word
-                        originalIndex++;
-                    }
-                }
-                typedIndex++;
-            }
-
-            return result.join(" ");
+        if (originalIndex < originalArray.length && originalArray[originalIndex] === typedWord) {
+            result.push(`<span class="correct">${typedWord}</span>`); // ✅ Correct word
+            originalIndex++;
+        } else {
+            result.push(`<span class="wrong">${typedWord}</span>`); // 🔴 Wrong word
+            // Move originalIndex forward to keep the sequence
+            originalIndex++;
         }
+    }
+
+    return result.join(" ");
+}
 
         function displayResults() {
             const urlParams = new URLSearchParams(window.location.search);
